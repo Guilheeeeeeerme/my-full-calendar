@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-monthly-date',
   templateUrl: './monthly-date.component.html',
   styleUrls: ['./monthly-date.component.css']
 })
-export class MonthlyDateComponent implements OnInit {
+export class MonthlyDateComponent implements OnInit, OnChanges {
 
   @Input("enabled") enabled: boolean = true;
   @Input("day") day: number = 0;
@@ -14,7 +14,12 @@ export class MonthlyDateComponent implements OnInit {
 
   constructor() { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
+
   ngOnInit(): void {
+
   }
 
 }
