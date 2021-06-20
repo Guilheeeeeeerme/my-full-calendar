@@ -1,4 +1,8 @@
 <router-outlet></router-outlet>
 
+<button (click)="goPreviousMonth()">goPreviousMonth</button>
+<button (click)="goNextMonth()">goNextMonth</button>
+<h3>{{ currentMonth + 1 }} / {{ currentFullYear }}</h3>
+
 <app-monthly-calendar [month]="currentMonth" [year]="currentFullYear">
 </app-monthly-calendar>

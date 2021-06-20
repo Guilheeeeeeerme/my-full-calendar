@@ -1,4 +1,11 @@
-<div *ngFor="let weekDay of weekDays">{{ weekDay }}</div>
-<div *ngFor="let day of rangeOfDays">
-    <app-monthly-date [enabled]="day.enabled" [day]="day.day" [month]="day.month" [year]="day.year"></app-monthly-date>
+<div class="my-calendar my-calendar-container">
+    <div class="my-calendar-row">
+        <div *ngFor="let weekDay of weekDays" class="my-calendar-box-col my-calendar-weekday-title">{{ weekDay }}</div>
+    </div>
+    <div class="my-calendar-row">
+        <div *ngFor="let day of rangeOfDays" class="my-calendar-box-col">
+            <app-monthly-date [enabled]="day.enabled" [day]="day.day" [month]="day.month" [year]="day.year">
+            </app-monthly-date>
+        </div>
+    </div>
 </div>

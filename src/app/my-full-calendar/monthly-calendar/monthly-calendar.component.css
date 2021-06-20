@@ -1,0 +1,32 @@
+.my-calendar {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.my-calendar-container {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.my-calendar-container-fluid {
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+/* .my-calendar-row {
+    margin-bottom: 5px;
+} */
+
+.my-calendar-box-col {
+    display: inline-block;
+    width: 13%;
+    max-width: 13%;
+}
+
+.my-calendar-weekday-title {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    background-color: #2f74b5;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
