@@ -1,6 +1,13 @@
 .my-calendar-datebox {
-    height: 150px;
+    height: 100px;
     border: thin solid #7f7f7f;
+}
+
+
+@media only screen and (max-width: 768px) {  
+    .my-calendar-datebox {
+        height: 50px;
+    }  
 }
 
 .my-calendar-datebox.weekend {
@@ -14,7 +21,6 @@
 .my-calendar-datebox.not-month p{
     opacity: 0.5;
 }
-
 
 .my-calendar-datebox p {
     /* padding-right: 2px;

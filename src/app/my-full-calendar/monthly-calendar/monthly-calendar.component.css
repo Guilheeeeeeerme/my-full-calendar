@@ -3,14 +3,18 @@
     font-size: 1em;
 }
 
-.my-calendar-container {
-    margin-left: 10%;
-    margin-right: 10%;
+@media only screen and (min-width: 768px) {    
+    .my-calendar-container {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
 }
 
-.my-calendar-container-fluid {
-    margin-left: 2%;
-    margin-right: 2%;
+@media only screen and (max-width: 768px) {    
+    .my-calendar-container {
+        margin-left: 0%;
+        margin-right: 0%;
+    }
 }
 
 /* .my-calendar-row {
@@ -19,8 +23,8 @@
 
 .my-calendar-box-col {
     display: inline-block;
-    width: 13%;
-    max-width: 13%;
+    width: 14.285714285714286%;
+    max-width: 14.285714285714286%;
 }
 
 .my-calendar-weekday-title {

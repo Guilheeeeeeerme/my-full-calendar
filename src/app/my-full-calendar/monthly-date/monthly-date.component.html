@@ -1,3 +1,5 @@
-<div class="my-calendar-datebox" [ngClass]="{'weekend': !(weekday % 6), 'not-month': !enabled }">
+<div class="my-calendar-datebox" 
+    (click)="selectDate()"
+    [ngClass]="{'weekend': !(weekday % 6), 'not-month': !enabled }">
     <p>{{ day }}</p>
 </div>

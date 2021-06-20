@@ -4,8 +4,16 @@
     </div>
     <div class="my-calendar-row">
         <div *ngFor="let day of rangeOfDays" class="my-calendar-box-col">
-            <app-monthly-date [enabled]="day.enabled" [day]="day.day" [weekday]="day.weekday" [month]="day.month" [year]="day.year">
+            <app-monthly-date 
+                (onSelectDate)="onDateSelect($event)"
+                [enabled]="day.withinTheViewMonth" 
+                [day]="day.day" 
+                [weekday]="day.weekday" 
+                [month]="day.month" 
+                [year]="day.year">
             </app-monthly-date>
         </div>
     </div>
 </div>
+
+<app-day-details [selectedDay]="selectedDay"></app-day-details>

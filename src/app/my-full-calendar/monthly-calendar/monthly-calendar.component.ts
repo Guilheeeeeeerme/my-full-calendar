@@ -12,13 +12,18 @@ export class MonthlyCalendarComponent implements OnChanges {
   @Input("year") public currentYear: number = 0;
   public weekDays: string[] = [];
   public rangeOfDays: DateViewModel[] = [];
+  public selectedDay: DateViewModel | undefined;
 
   constructor() {
     this.buildCalendarHeader();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.UpdateCalendarState();
+  }
+
+  public onDateSelect(date: DateViewModel) {
+    this.selectedDay = date;
   }
 
   private UpdateCalendarState(): void {
@@ -36,30 +41,26 @@ export class MonthlyCalendarComponent implements OnChanges {
     ]
   }
 
-  buildCalendarRows(currentMonth: number, currentYear: number) {
+  private buildCalendarRows(currentMonth: number, currentYear: number) {
     
     const rangeOfDays: DateViewModel[] = [];
 
-    let monthStartsAt = new Date(currentYear, currentMonth, 1);
-    let monthEndsAt = new Date(currentYear, currentMonth + 1, 0);
+    let viewMonthStartsAt = new Date(currentYear, currentMonth, 1);
+    let viewMonthEndsAt = new Date(currentYear, currentMonth + 1, 0);
 
-    while (monthStartsAt.getDay() != 0) {
-      monthStartsAt.setDate(monthStartsAt.getDate() - 1);
+    // fill the left side until sunday
+    while (viewMonthStartsAt.getDay() != 0) {
+      viewMonthStartsAt.setDate(viewMonthStartsAt.getDate() - 1);
     }
 
-    while (monthEndsAt.getDay() != 6) {
-      monthEndsAt.setDate(monthEndsAt.getDate() + 1);
+    // fill the right side until saturday
+    while (viewMonthEndsAt.getDay() != 6) {
+      viewMonthEndsAt.setDate(viewMonthEndsAt.getDate() + 1);
     }
 
-    while(monthStartsAt <= monthEndsAt) {
-      rangeOfDays.push({
-        enabled: monthStartsAt.getMonth() == currentMonth,
-        day: monthStartsAt.getDate(),
-        weekday: monthStartsAt.getDay(),
-        month: monthStartsAt.getMonth(),
-        year: monthStartsAt.getFullYear(),
-      });
-      monthStartsAt.setDate(monthStartsAt.getDate() + 1);
+    while(viewMonthStartsAt <= viewMonthEndsAt) {
+      rangeOfDays.push(new DateViewModel(viewMonthStartsAt, currentMonth));
+      viewMonthStartsAt.setDate(viewMonthStartsAt.getDate() + 1);
     }
 
     this.rangeOfDays = rangeOfDays;
