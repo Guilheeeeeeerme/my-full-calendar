@@ -55,6 +55,7 @@ export class MonthlyCalendarComponent implements OnChanges {
       rangeOfDays.push({
         enabled: monthStartsAt.getMonth() == currentMonth,
         day: monthStartsAt.getDate(),
+        weekday: monthStartsAt.getDay(),
         month: monthStartsAt.getMonth(),
         year: monthStartsAt.getFullYear(),
       });

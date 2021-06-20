@@ -9,6 +9,7 @@ export class MonthlyDateComponent implements OnInit, OnChanges {
 
   @Input("enabled") enabled: boolean = true;
   @Input("day") day: number = 0;
+  @Input("weekday") weekday: number = 0;
   @Input("month") month: number = 0;
   @Input("year") year: number = 0;
 
