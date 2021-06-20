@@ -6,7 +6,22 @@ import { DateViewModel } from './viewModels/dateViewModel';
   providedIn: 'root'
 })
 export class ReminderService {
-  
+
+  constructor() { }
+
+  addReminder(dateViewModel: DateViewModel, reminderViewModel: ReminderViewModel): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let reminders = await this.getRemindersForDate(dateViewModel);
+        reminders.push(reminderViewModel);
+        localStorage.setItem(dateViewModel.getFullDateString(), JSON.stringify(reminders));
+        resolve()
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
   getRemindersForDate(selectedDay: DateViewModel): Promise<ReminderViewModel[]> {
     return new Promise((resolve, reject) => {
 
@@ -23,6 +38,4 @@ export class ReminderService {
 
     });
   }
-
-  constructor() { }
 }

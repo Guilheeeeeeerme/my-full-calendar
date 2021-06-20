@@ -3,14 +3,17 @@
     font-size: 1em;
 }
 
-@media only screen and (min-width: 768px) {    
-    .my-calendar-container {
-        margin-left: 10%;
-        margin-right: 10%;
-    }
+.my-calendar-container {
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
-@media only screen and (max-width: 768px) {    
+@media only screen and (max-width: 768px) {
+
+    .my-calendar {
+        font-size: 0.8em;
+    }
+
     .my-calendar-container {
         margin-left: 0%;
         margin-right: 0%;

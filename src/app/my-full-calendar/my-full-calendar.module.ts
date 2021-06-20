@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonthlyCalendarComponent } from './monthly-calendar/monthly-calendar.component';
 import { MonthlyDateComponent } from './monthly-date/monthly-date.component';
-import { DayDetailsComponent } from './day-details/day-details.component';
+import { CreateReminderComponent } from './create-reminder/create-reminder.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -10,15 +11,16 @@ import { DayDetailsComponent } from './day-details/day-details.component';
   declarations: [
     MonthlyCalendarComponent,
     MonthlyDateComponent,
-    DayDetailsComponent
+    CreateReminderComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
     MonthlyCalendarComponent,
     MonthlyDateComponent,
-    DayDetailsComponent
+    CreateReminderComponent
   ]
 })
 export class MyFullCalendarModule { }

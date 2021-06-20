@@ -6,7 +6,7 @@
         <div *ngFor="let day of rangeOfDays" class="my-calendar-box-col">
             <app-monthly-date 
                 (onSelectDate)="onDateSelect($event)"
-                [enabled]="day.withinTheViewMonth" 
+                [withinTheViewMonth]="day.withinTheViewMonth" 
                 [day]="day.day" 
                 [weekday]="day.weekday" 
                 [month]="day.month" 
@@ -16,4 +16,4 @@
     </div>
 </div>
 
-<app-day-details [selectedDay]="selectedDay"></app-day-details>
+<app-create-reminder [selectedDay]="selectedDay"></app-create-reminder>

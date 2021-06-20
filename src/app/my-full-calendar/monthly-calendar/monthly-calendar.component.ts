@@ -59,7 +59,7 @@ export class MonthlyCalendarComponent implements OnChanges {
     }
 
     while(viewMonthStartsAt <= viewMonthEndsAt) {
-      rangeOfDays.push(new DateViewModel(viewMonthStartsAt, currentMonth));
+      rangeOfDays.push(new DateViewModel(viewMonthStartsAt, viewMonthStartsAt.getMonth() == currentMonth));
       viewMonthStartsAt.setDate(viewMonthStartsAt.getDate() + 1);
     }
 

@@ -5,12 +5,8 @@ export class DateViewModel {
   public month: number = 0;
   public year: number = 0;
 
-  public constructor(param: Date, viewMonth: number = -1) {
-    viewMonth = viewMonth < 0 
-      ? new Date().getMonth()
-      : viewMonth;
-
-    this.withinTheViewMonth = param.getMonth() == viewMonth;
+  public constructor(param: Date, withinTheViewMonth: boolean) {
+    this.withinTheViewMonth = withinTheViewMonth;
     this.day = param.getDate();
     this.weekday = param.getDay();
     this.month = param.getMonth();
