@@ -1,1 +1,4 @@
-<p>monthly-calendar works!</p>
+<div *ngFor="let weekDay of weekDays">{{ weekDay }}</div>
+<div *ngFor="let day of rangeOfDays">
+    <app-monthly-date [enabled]="day.enabled" [day]="day.day" [month]="day.month" [year]="day.year"></app-monthly-date>
+</div>

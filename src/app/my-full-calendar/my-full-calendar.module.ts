@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonthlyCalendarComponent } from './monthly-calendar/monthly-calendar.component';
+import { MonthlyDateComponent } from './monthly-date/monthly-date.component';
 
 
 
 @NgModule({
   declarations: [
-    MonthlyCalendarComponent
+    MonthlyCalendarComponent,
+    MonthlyDateComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    MonthlyCalendarComponent
+    MonthlyCalendarComponent,
+    MonthlyDateComponent
   ]
 })
 export class MyFullCalendarModule { }
