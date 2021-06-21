@@ -39,6 +39,10 @@
     </ng-template>
 
     <div class="row">
+        <div class="col" *ngIf="reminders && reminders.length > 0">
+            <button class="btn btn-danger my-calendar-btn-add float-left" (click)="onClickClearAll()">
+                Delete all</button>
+        </div>
         <div class="col">
             <button class="btn btn-success my-calendar-btn-add float-right" (click)="onClickCreateReminder()">
                 Add a reminder</button>

@@ -84,6 +84,17 @@ export class ListReminderComponent implements OnChanges {
     this.onUpdateReminder.emit();
   }
 
+  public async onClickClearAll() {
+    if(this.reminders) {
+
+      for (const reminder of this.reminders) {
+        await this.reminderService.deleteReminder(reminder);
+      }
+     
+      this.onUpdateReminder.emit(); 
+    }
+  }
+
   private async updateRemindersList() {
 
     if (this.selectedDay)
