@@ -16,27 +16,23 @@ export class ReminderService {
 
   private sortReminders(dateA: ReminderViewModel, dateB: ReminderViewModel) {
 
-    if (dateA.date.year > dateB.date.year) {
+    if (+dateA.date.year > +dateB.date.year) {
       return 1;
     }
 
-    if (dateA.date.month > dateB.date.month) {
+    if (+dateA.date.month > +dateB.date.month) {
       return 1;
     }
 
-    if (dateA.date.day > dateB.date.day) {
+    if (+dateA.date.day > +dateB.date.day) {
       return 1;
     }
 
-    if (dateA.time.hour > dateB.time.hour) {
+    if (+dateA.time.hour > +dateB.time.hour) {
       return 1;
     }
 
-    if (dateA.time.minute > dateB.time.minute) {
-      return 1;
-    }
-
-    if (dateA.time.second > dateB.time.second) {
+    if (+dateA.time.minute > +dateB.time.minute) {
       return 1;
     }
 
@@ -131,6 +127,7 @@ export class ReminderService {
         })
       }
 
+      reminders = reminders.sort(this.sortReminders);
       resolve(reminders);
 
     });
