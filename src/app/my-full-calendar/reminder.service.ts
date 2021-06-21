@@ -9,6 +9,10 @@ export class ReminderService {
 
   constructor() { }
 
+  private get key() {
+    return "my-reminders"
+  }
+
   private sortReminders(dateA: ReminderViewModel, dateB: ReminderViewModel) {
 
     if (dateA.date.year > dateB.date.year)
@@ -33,7 +37,35 @@ export class ReminderService {
 
   }
 
-  addReminder(reminderViewModel: ReminderViewModel): Promise<void> {
+  updateReminder(reminderVm: ReminderViewModel): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+
+        const reminders_str = localStorage.getItem(this.key);
+        let reminders: ReminderViewModel[] = [];
+
+        if (!!reminders_str) {
+          reminders = JSON.parse(reminders_str);
+        } else {
+          reminders = [];
+        }
+
+        reminders = reminders.filter((x) => {
+          return x.id != reminderVm.id;
+        })
+
+        reminders.push(reminderVm);
+        reminders = reminders.sort(this.sortReminders);
+        localStorage.setItem(this.key, JSON.stringify(reminders));
+
+        resolve()
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
+  addReminder(reminderVm: ReminderViewModel): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
 
@@ -46,12 +78,12 @@ export class ReminderService {
           reminders = [];
         }
 
-        reminderViewModel.id = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-        reminders.push(reminderViewModel);
+        reminderVm.id = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+        reminders.push(reminderVm);
 
         reminders = reminders.sort(this.sortReminders);
         localStorage.setItem(this.key, JSON.stringify(reminders));
-        
+
         resolve()
       } catch (e) {
         reject(e)
@@ -59,7 +91,7 @@ export class ReminderService {
     })
   }
 
-  getRemindersForDate(dateViewModel: ReminderDateViewModel): Promise<ReminderViewModel[]> {
+  getRemindersForDate(reminderDateVm: ReminderDateViewModel): Promise<ReminderViewModel[]> {
     return new Promise((resolve, reject) => {
 
       const reminders_str = localStorage.getItem(this.key);
@@ -73,9 +105,9 @@ export class ReminderService {
 
       if (reminders && reminders.length > 0) {
         reminders = reminders.filter(date => {
-          return +date.date.year == +dateViewModel.year
-            && +(date.date.month - 1) == +dateViewModel.month
-            && +date.date.day == +dateViewModel.day;
+          return +date.date.year == +reminderDateVm.year
+            && +(date.date.month - 1) == +reminderDateVm.month
+            && +date.date.day == +reminderDateVm.day;
         })
       }
 
@@ -84,7 +116,4 @@ export class ReminderService {
     });
   }
 
-  get key() {
-    return "my-reminders"
-  }
 }

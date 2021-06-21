@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderService } from '../reminder.service';
 import { ReminderDateViewModel, ReminderViewModel } from '../viewModels/reminderViewModel';
 
@@ -15,9 +16,19 @@ export class ListReminderComponent implements OnChanges {
   @Output("onSelectReminder") 
   public onSelectReminder: EventEmitter<ReminderViewModel> = new EventEmitter();
 
-  public reminders: ReminderViewModel[] = [];
+  @Output("onUpdateReminder") 
+  public onUpdateReminder : EventEmitter<void> = new EventEmitter();
 
-  constructor(private reminderService: ReminderService) { }
+  @Output("onCreateReminder") 
+  public onCreateReminder : EventEmitter<void> = new EventEmitter();
+
+  @ViewChild('updateReminderModal', { static: false }) public updateReminderModal: ElementRef | undefined;
+  
+
+  public reminders: ReminderViewModel[] = [];
+  public selectedReminder: ReminderViewModel | undefined;
+
+  constructor(private modalService: NgbModal, private reminderService: ReminderService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateRemindersList();
@@ -37,7 +48,25 @@ export class ListReminderComponent implements OnChanges {
   }
 
   public onSelect(reminder: ReminderViewModel) {
+    this.selectedReminder = reminder;
     this.onSelectReminder.emit(reminder);
+    
+    this.modalService.open(this.updateReminderModal, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then((result) => {
+        console.log(`Closed with: ${result}`);
+      }, (reason) => {
+        console.log(`Dismissed with: ${reason}`);
+      });
+    
+  }
+
+  public onUpdateReminderModalDismised() {
+    this.modalService.dismissAll();
+  }
+
+  public onReminderUpdated() {
+    this.modalService.dismissAll();
+    this.onUpdateReminder.emit();
   }
 
 }

@@ -3,11 +3,9 @@
     <div class="my-calendar-row my-calendar-mb-lg my-calendar-mt-lg">
         <div class="row">
             <div class="col-md-4">
-                <button class="btn btn-default"
-                    (click)="goBack()">
+                <button class="btn btn-default" (click)="goBack()">
                     Previous</button>
-                <button class="btn btn-default"
-                    (click)="goForward()">
+                <button class="btn btn-default" (click)="goForward()">
                     Next</button>
             </div>
             <div class="col-md-4 text-center">
@@ -42,7 +40,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-create-reminder [selectedDay]="selectedDay" (onSaveReminder)=onReminderSaved()>
+        <app-create-reminder [selectedDay]="selectedDay" (onCreateReminder)=onReminderCreated()>
         </app-create-reminder>
     </div>
 </ng-template>
@@ -56,13 +54,8 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-list-reminder *ngIf="selectedDay" [selectedDay]="selectedDay"
-            (onSelectReminder)="onReminderSelected($event)"></app-list-reminder>
+        <app-list-reminder [selectedDay]="selectedDay" (onSelectReminder)="onReminderSelected($event)"
+            (onUpdateReminder)="onReminderUpdated()">
+        </app-list-reminder>
     </div>
 </ng-template>
-
-<div class="row">
-    <div class="col-md-6">
-        <app-update-reminder *ngIf="selectedReminder" [selectedReminder]="selectedReminder"></app-update-reminder>
-    </div>
-</div>

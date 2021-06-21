@@ -20,7 +20,7 @@ export class CreateReminderComponent implements OnInit {
   public datepickerInitialValue: ReminderDateViewModel | undefined;
   @ViewChild('dp', { static: false }) public dp: NgbDatepicker | undefined;
 
-  @Output("onSaveReminder") public onSaveReminder : EventEmitter<void> = new EventEmitter();
+  @Output("onCreateReminder") public onCreateReminder : EventEmitter<void> = new EventEmitter();
 
   constructor(private reminderService: ReminderService) { }
 
@@ -72,7 +72,7 @@ export class CreateReminderComponent implements OnInit {
   }
 
   AddReminder(): void {
-    this.onSaveReminder.emit();
+    this.onCreateReminder.emit();
     const newReminder: ReminderViewModel = this.reminderForm.value as ReminderViewModel;
     this.reminderService.addReminder(newReminder);
   }

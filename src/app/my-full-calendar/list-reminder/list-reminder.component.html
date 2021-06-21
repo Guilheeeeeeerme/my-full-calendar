@@ -2,12 +2,28 @@
 
     <ul class="list-group" *ngIf="reminders && reminders.length > 0 ; else emptyList">
         <li *ngFor="let reminder of reminders" 
-            (click)="onSelect(reminder)" class="list-group-item list-group-item-action">{{ reminder.reminder }}
+            (click)="onSelect(reminder)" class="list-group-item list-group-item-action">{{ reminder | reminderDescription : 'short' }}
         </li>
     </ul>
 
     <ng-template #emptyList>
-        No reminder for {{ selectedDay | json }}
+        No reminder for {{ selectedDay }}
     </ng-template>
 
+    
 </div>
+
+
+
+<!-- Modal for creating reminder -->
+<ng-template #updateReminderModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Reminder</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onUpdateReminderModalDismised()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-update-reminder [selectedReminder]="selectedReminder" (onUpdateReminder)="onReminderUpdated()"></app-update-reminder>
+    </div>
+</ng-template>

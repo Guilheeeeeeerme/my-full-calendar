@@ -83,9 +83,12 @@ export class MonthlyCalendarComponent implements OnChanges {
     this.modalService.dismissAll();
   }
 
-  public onReminderSaved() {
+  public onReminderCreated() {
     this.modalService.dismissAll();
-    // }
+  }
+
+  public onReminderUpdated() {
+    this.modalService.dismissAll();
   }
 
   /**
