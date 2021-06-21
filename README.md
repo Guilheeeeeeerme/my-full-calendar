@@ -1,5 +1,33 @@
 # MyFullCalendar
 
+Hi, you just got 'MyFullCalendar' by Guilherme Ferreira.
+
+To run this code is as simple as any regular angular app.
+
+* npm install (to install the packages)
+* npm start (will start serving at localhost:4200)
+
+now you will be able to test the calendar.
+
+The ng test is already pointed to the mandatory test. So, fell free to run ng test.
+
+# Information about the app
+
+The entire application logic was wrote into the 'MyFullCalendarModule'. The 'AppModule' only uses it just like it was an external library. 
+The 'MonthlyCalendarComponent' hold the entire aplication state: the current month and year. The child components only contains the necessary @Inputs and @Outputs.
+I decided for using Bootstrap modals to show that the componentes (create, list, update) are plug and play. If you move it outside, it will still work normally.
+
+
+
+
+
+
+
+
+
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
 
 ## Development server
