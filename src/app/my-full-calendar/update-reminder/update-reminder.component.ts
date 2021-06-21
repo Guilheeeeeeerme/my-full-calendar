@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderService } from '../reminder.service';
@@ -11,7 +11,7 @@ import { ReminderViewModel } from '../viewModels/reminderViewModel';
   templateUrl: './update-reminder.component.html',
   styleUrls: ['./update-reminder.component.css']
 })
-export class UpdateReminderComponent implements OnInit, OnChanges {
+export class UpdateReminderComponent implements OnInit, AfterViewInit {
 
   @Input("selectedReminder")
   public selectedReminder: ReminderViewModel | undefined;
@@ -53,10 +53,6 @@ export class UpdateReminderComponent implements OnInit, OnChanges {
       }
     }
     this.setFormValidation();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // throw new Error('Method not implemented.');
   }
 
   private setFormValidation(): void {

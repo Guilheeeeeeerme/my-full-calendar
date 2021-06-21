@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ReminderService } from '../reminder.service';
 import { ReminderViewModel } from '../viewModels/reminderViewModel';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ import { ReminderColorEnum } from '../viewModels/reminderColorEnum';
   templateUrl: './create-reminder.component.html',
   styleUrls: ['./create-reminder.component.css']
 })
-export class CreateReminderComponent implements OnInit {
+export class CreateReminderComponent implements OnInit, AfterViewInit {
 
   @Input("selectedDay")
   public selectedDay: ReminderDateViewModel | undefined;
