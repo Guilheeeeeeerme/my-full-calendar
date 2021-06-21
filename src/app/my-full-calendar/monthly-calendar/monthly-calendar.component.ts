@@ -12,14 +12,14 @@ export class MonthlyCalendarComponent implements OnChanges {
 
   @Input("month") public currentMonth: number = 0;
   @Input("year") public currentYear: number = 0;
-  public weekDays: string[] = [];
 
+  public weekDays: string[] = [];
   public rangeOfDays: CalendarDateViewModel[] = [];
   public selectedDay: CalendarDateViewModel | undefined;
-
   public selectedReminder: ReminderViewModel | undefined;
-  
-	@ViewChild('listReminderModal', { static: false }) public listReminderModal: ElementRef | undefined;
+
+  @ViewChild('listReminderModal', { static: false }) public listReminderModal: ElementRef | undefined;
+  public dateLabel: Date | undefined;
 
   constructor(private modalService: NgbModal) {
     this.buildCalendarHeader();
@@ -32,7 +32,22 @@ export class MonthlyCalendarComponent implements OnChanges {
   private setCalendarState(): void {
     const currentMonth = this.currentMonth;
     const currentYear = this.currentYear;
+
     this.buildCalendarRows(currentMonth, currentYear);
+  }
+
+  public goBack() {
+    const curr = new Date(this.currentYear, this.currentMonth - 1, 1);
+    this.currentMonth = curr.getMonth();
+    this.currentYear = curr.getFullYear();
+    this.setCalendarState();
+  }
+
+  public goForward() {
+    const curr = new Date(this.currentYear, this.currentMonth + 1, 1);
+    this.currentMonth = curr.getMonth();
+    this.currentYear = curr.getFullYear();
+    this.setCalendarState();
   }
 
   /**
@@ -86,6 +101,7 @@ export class MonthlyCalendarComponent implements OnChanges {
 
     const rangeOfDays: CalendarDateViewModel[] = [];
 
+    this.dateLabel = new Date(currentYear, currentMonth, 1);
     let viewMonthStartsAt = new Date(currentYear, currentMonth, 1);
     let viewMonthEndsAt = new Date(currentYear, currentMonth + 1, 0);
 
@@ -105,6 +121,7 @@ export class MonthlyCalendarComponent implements OnChanges {
     }
 
     this.rangeOfDays = rangeOfDays;
+
 
   }
 

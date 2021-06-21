@@ -1,18 +1,24 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            {{ currentMonth }} of {{ currentYear }}
-        </div>
-        <div class="col-md-3 col-md-offset-6">
-        </div>
-    </div>
-</div>
-
 <div class="my-calendar my-calendar-container">
 
-    
-    <div class="my-calendar-row my-calendar-mb-lg">
-        <button class="btn btn-success my-calendar-btn-add" (click)="openModal(createReminderModal)">Add a reminder</button>
+    <div class="my-calendar-row my-calendar-mb-lg my-calendar-mt-lg">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-default"
+                    (click)="goBack()">
+                    Previous</button>
+                <button class="btn btn-default"
+                    (click)="goForward()">
+                    Next</button>
+            </div>
+            <div class="col-md-4 text-center">
+                <h3> {{ dateLabel | date : 'MMMM YYYY' }} </h3>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success my-calendar-btn-add float-right"
+                    (click)="openModal(createReminderModal)">
+                    Add a reminder</button>
+            </div>
+        </div>
     </div>
 
     <div class="my-calendar-row">

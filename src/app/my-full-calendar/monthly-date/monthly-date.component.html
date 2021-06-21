@@ -5,7 +5,7 @@
 
     <div class="reminders-container">
         <div class="reminders-container-list">
-            <p class="reminders-container-list-item" *ngFor="let reminder of reminders">{{ reminder.reminder }}</p>
+            <p class="reminders-container-list-item" *ngFor="let reminder of reminders">{{ reminder | reminderDescription : 'short' }}</p>
         </div>
     </div>
 

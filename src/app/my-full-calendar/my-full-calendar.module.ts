@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UpdateReminderComponent } from './update-reminder/update-reminder.component';
 import { ListReminderComponent } from './list-reminder/list-reminder.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReminderDescriptionPipe } from './reminder-description.pipe';
 
 
 
@@ -16,7 +17,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MonthlyDateComponent,
     CreateReminderComponent,
     UpdateReminderComponent,
-    ListReminderComponent
+    ListReminderComponent,
+    ReminderDescriptionPipe
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MonthlyCalendarComponent,
     MonthlyDateComponent,
     CreateReminderComponent,
-    UpdateReminderComponent
+    UpdateReminderComponent,
+    ReminderDescriptionPipe
   ]
 })
 export class MyFullCalendarModule { }
