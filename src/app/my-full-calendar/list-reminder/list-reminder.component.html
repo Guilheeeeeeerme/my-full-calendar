@@ -1,15 +1,22 @@
 <div class="container">
 
     <ul class="list-group" *ngIf="reminders && reminders.length > 0 ; else emptyList">
-        <li *ngFor="let reminder of reminders" 
-            (click)="onSelect(reminder)" class="list-group-item list-group-item-action">{{ reminder | reminderDescription : 'short' }}
+        <li *ngFor="let reminder of reminders" (click)="onSelectReminderOnList(reminder)"
+            class="list-group-item list-group-item-action">{{ reminder | reminderDescription : 'short' }}
         </li>
     </ul>
 
     <ng-template #emptyList>
-        No reminder for {{ selectedDay }}
+        No reminder for {{ selectedDay | json }}
     </ng-template>
-    
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-success my-calendar-btn-add float-right" (click)="onClickCreateReminder()">
+                Add a reminder</button>
+        </div>
+    </div>
+
 </div>
 
 <!-- Modal for creating reminder -->
@@ -21,6 +28,22 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-update-reminder [selectedReminder]="selectedReminder" (onUpdateReminder)="onReminderUpdated()"></app-update-reminder>
+        <app-update-reminder [selectedReminder]="selectedReminder" (onUpdateReminder)="onReminderUpdated()">
+        </app-update-reminder>
+    </div>
+</ng-template>
+
+
+<!-- Modal for creating reminder -->
+<ng-template #createReminderModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create Reminder</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCreateReminderModalDismised()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-create-reminder [selectedDay]="selectedDay" (onCreateReminder)=onReminderCreated()>
+        </app-create-reminder>
     </div>
 </ng-template>

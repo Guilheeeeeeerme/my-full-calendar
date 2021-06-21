@@ -12,7 +12,7 @@ import { ReminderViewModel } from '../viewModels/reminderViewModel';
 })
 export class ListReminderComponent implements OnChanges {
 
-  @Input("selectedDay") 
+  @Input("selectedDay")
   public selectedDay: ReminderDateViewModel | undefined;
 
   @Output("onSelectReminder")
@@ -24,8 +24,11 @@ export class ListReminderComponent implements OnChanges {
   @Output("onCreateReminder")
   public onCreateReminder: EventEmitter<void> = new EventEmitter();
 
-  @ViewChild('updateReminderModal', { static: false }) 
+  @ViewChild('updateReminderModal', { static: false })
   public updateReminderModal: ElementRef | undefined;
+
+  @ViewChild('createReminderModal', { static: false })
+  public createReminderModal: ElementRef | undefined;
 
   public reminders: ReminderViewModel[] = [];
   public selectedReminder: ReminderViewModel | undefined;
@@ -38,7 +41,64 @@ export class ListReminderComponent implements OnChanges {
     this.updateRemindersList();
   }
 
-  async updateRemindersList() {
+  public onClickCreateReminder() {
+
+    this.modalService.open(this.createReminderModal, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then((result) => {
+        console.log(`Closed with: ${result}`);
+      }, (reason) => {
+        console.log(`Dismissed with: ${reason}`);
+      });
+
+  }
+
+  public onSelectReminderOnList(reminder: ReminderViewModel) {
+    this.selectedReminder = reminder;
+    this.onSelectReminder.emit(reminder);
+
+    this.modalService.open(this.updateReminderModal, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then((result) => {
+        console.log(`Closed with: ${result}`);
+      }, (reason) => {
+        console.log(`Dismissed with: ${reason}`);
+      });
+
+  }
+
+  public onCreateReminderModalDismised() {
+    this.modalService.dismissAll();
+  }
+
+  public onUpdateReminderModalDismised() {
+    this.modalService.dismissAll();
+  }
+
+  public onReminderCreated() {
+    this.modalService.dismissAll();
+    this.onCreateReminder.emit();
+  }
+
+  public onReminderUpdated() {
+    this.modalService.dismissAll();
+    this.onUpdateReminder.emit();
+  }
+
+  private async updateWeatherData(reminderViewModel: ReminderViewModel) {
+
+    try {
+      const r = reminderViewModel;
+      if (!r.weatherInfo) {
+        const weatherInfo = await this.openWeatherService.getWeatherForecast(r.city, 1);
+        debugger;
+        r.weatherInfo = weatherInfo;
+        // await this.reminderService.updateReminder(r);
+      }
+    } catch {
+
+    }
+  }
+
+  private async updateRemindersList() {
 
     let reminders: ReminderViewModel[] = [];
     try {
@@ -52,43 +112,6 @@ export class ListReminderComponent implements OnChanges {
     }
 
     this.reminders = reminders;
-  }
-
-  private async updateWeatherData(reminderViewModel: ReminderViewModel) {
-
-    try {
-      const r = reminderViewModel;
-      if (!r.weatherInfo) {
-        const weatherInfo = await this.openWeatherService.getWeatherForecast(r.city, 1);
-        debugger;
-        r.weatherInfo = weatherInfo;
-        await this.reminderService.updateReminder(r);
-      }
-    } catch {
-
-    }
-  }
-
-  public onSelect(reminder: ReminderViewModel) {
-    this.selectedReminder = reminder;
-    this.onSelectReminder.emit(reminder);
-
-    this.modalService.open(this.updateReminderModal, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then((result) => {
-        console.log(`Closed with: ${result}`);
-      }, (reason) => {
-        console.log(`Dismissed with: ${reason}`);
-      });
-
-  }
-
-  public onUpdateReminderModalDismised() {
-    this.modalService.dismissAll();
-  }
-
-  public onReminderUpdated() {
-    this.modalService.dismissAll();
-    this.onUpdateReminder.emit();
   }
 
 }

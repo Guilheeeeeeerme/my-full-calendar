@@ -1,8 +1,8 @@
-import { ReminderDescriptionPipe } from './reminder-description.pipe';
+import { ReminderDatePipe } from './reminder-description.pipe';
 
 describe('ReminderDescriptionPipe', () => {
   it('create an instance', () => {
-    const pipe = new ReminderDescriptionPipe();
+    const pipe = new ReminderDatePipe();
     expect(pipe).toBeTruthy();
   });
 });
