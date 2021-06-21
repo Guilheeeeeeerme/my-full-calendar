@@ -155,7 +155,7 @@ export class ReminderService {
         })
       }
 
-      reminders = reminders.sort(this.sortReminders);
+      // reminders = reminders.sort(this.sortReminders);
       resolve(reminders);
 
     });

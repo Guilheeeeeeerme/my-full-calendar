@@ -32,6 +32,7 @@ export class ListReminderComponent implements OnChanges {
 
   public reminders: ReminderViewModel[] = [];
   public selectedReminder: ReminderViewModel | undefined;
+  public dateLabel: Date = new Date();
 
   constructor(private modalService: NgbModal,
     private reminderService: ReminderService,
@@ -85,6 +86,9 @@ export class ListReminderComponent implements OnChanges {
 
   private async updateRemindersList() {
 
+    if (this.selectedDay)
+      this.dateLabel = new Date(this.selectedDay?.year, this.selectedDay?.month, 1);
+
     let reminders: ReminderViewModel[] = [];
     try {
       if (this.selectedDay)
@@ -94,10 +98,12 @@ export class ListReminderComponent implements OnChanges {
     }
 
     for (const reminder of reminders) {
+      reminder.weatherInfo = null;
       try {
-        const weatherInfo = this.openWeatherService.getWeatherForecast(reminder.city, 15);
-        reminder.weatherInfo = weatherInfo;
-      } catch {}
+        reminder.weatherInfo = await this.openWeatherService.getWeatherForecast(reminder.city, 15);
+      } catch {
+        reminder.weatherInfo = null;
+      }
     }
 
     this.reminders = reminders;
