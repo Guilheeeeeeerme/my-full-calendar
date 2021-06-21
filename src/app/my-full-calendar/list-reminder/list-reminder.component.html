@@ -21,7 +21,7 @@
                         <!-- <small class="text-muted">{{ reminder | reminderDescription : 'time' }}</small> -->
                     </div>
                     <p class="mb-1">City: {{ reminder.city }}</p>
-                    <small *ngIf="reminder.weatherInfo" class="text-muted">{{ reminder.weatherInfo }}.</small>
+                    <small *ngIf="reminder.weatherInfo" class="text-muted">{{ reminder.weatherInfo | weather }}.</small>
                     <small *ngIf="!reminder.weatherInfo" class="text-muted">No weather information available.</small>
                 </a>
             </ul>

@@ -102,7 +102,7 @@ export class ListReminderComponent implements OnChanges {
     for (const reminder of this.reminders) {
       reminder.weatherInfo = null;
       try {
-        reminder.weatherInfo = await this.openWeatherService.getWeatherForecast(reminder.city, 15);
+        reminder.weatherInfo = await this.openWeatherService.getWeatherForecast(reminder.city, reminder.date);
       } catch {
         reminder.weatherInfo = null;
       }

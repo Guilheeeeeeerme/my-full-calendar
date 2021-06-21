@@ -9,6 +9,7 @@ import { ListReminderComponent } from './list-reminder/list-reminder.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderDescriptionPipe } from './reminder-description.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { WeatherPipe } from './weather.pipe';
 
 
 
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     CreateReminderComponent,
     UpdateReminderComponent,
     ListReminderComponent,
-    ReminderDescriptionPipe
+    ReminderDescriptionPipe,
+    WeatherPipe
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     MonthlyDateComponent,
     CreateReminderComponent,
     UpdateReminderComponent,
-    ReminderDescriptionPipe
+    ReminderDescriptionPipe,
+    WeatherPipe
   ]
 })
 export class MyFullCalendarModule { }
