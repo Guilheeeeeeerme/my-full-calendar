@@ -10,16 +10,20 @@ import { ReminderViewModel } from '../viewModels/reminderViewModel';
 })
 export class MonthlyCalendarComponent implements OnChanges {
 
-  @Input("month") public currentMonth: number = 0;
-  @Input("year") public currentYear: number = 0;
+  @Input("month") 
+  public currentMonth: number = 0;
+  
+  @Input("year") 
+  public currentYear: number = 0;
 
+  @ViewChild('listReminderModal', { static: false }) 
+  public listReminderModal: ElementRef | undefined;
+  
+  public dateLabel: Date | undefined;
   public weekDays: string[] = [];
   public rangeOfDays: CalendarDateViewModel[] = [];
   public selectedDay: CalendarDateViewModel | undefined;
   public selectedReminder: ReminderViewModel | undefined;
-
-  @ViewChild('listReminderModal', { static: false }) public listReminderModal: ElementRef | undefined;
-  public dateLabel: Date | undefined;
 
   constructor(private modalService: NgbModal) {
     this.buildCalendarHeader();

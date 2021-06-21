@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ReminderDateViewModel, ReminderViewModel } from './viewModels/reminderViewModel';
+import { ReminderViewModel } from './viewModels/reminderViewModel';
 import { v4 as uuidv4 } from 'uuid';
+import { ReminderDateViewModel } from './viewModels/reminderDateViewModel';
 
 @Injectable({
   providedIn: 'root'

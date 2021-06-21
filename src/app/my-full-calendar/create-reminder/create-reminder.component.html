@@ -1,7 +1,5 @@
 <div class="container">
 
-  <h3>Create new reminder</h3>
-
   <form [formGroup]="reminderForm">
 
     <div class="row">
@@ -33,8 +31,8 @@
     </div>
     <div class="row">
 
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
+      <div class="col-md-6 col-sm-12" *ngIf="datepickerInitialValue">
+        <div class="form-group datepicker-container">
 
           <ngb-datepicker [(ngModel)]="datepickerInitialValue" #dp formControlName="date"
             [ngClass]="{ 'is-invalid': date?.touched && date?.invalid }" id="date" aria-describedby="dayHelp"
@@ -48,7 +46,7 @@
       </div>
 
       <div class="col-md-6 col-sm-12">
-        <div class="form-group">
+        <div class="form-group timepicker-container">
           <ngb-timepicker #tp formControlName="time" [ngClass]="{ 'is-invalid': time?.touched && time?.invalid }"
             id="time" aria-describedby="timeHelp" placeholder="Enter Time">
           </ngb-timepicker>

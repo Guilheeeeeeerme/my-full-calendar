@@ -10,13 +10,23 @@ import { ReminderViewModel } from '../viewModels/reminderViewModel';
 })
 export class MonthlyDateComponent implements OnChanges {
 
-  @Input("withinTheViewMonth") withinTheViewMonth: boolean = true;
-  @Input("day") day: number = 0;
-  @Input("weekday") weekday: number = 0;
-  @Input("month") month: number = 0;
-  @Input("year") year: number = 0;
+  @Input("withinTheViewMonth") 
+  public withinTheViewMonth: boolean = true;
+  
+  @Input("day") 
+  public day: number = 0;
+  
+  @Input("weekday") 
+  public weekday: number = 0;
+  
+  @Input("month") 
+  public month: number = 0;
+  
+  @Input("year") 
+  public year: number = 0;
 
-  @Output("onSelectDate") public onSelectDate: EventEmitter<CalendarDateViewModel> = new EventEmitter();
+  @Output("onSelectDate") 
+  public onSelectDate: EventEmitter<CalendarDateViewModel> = new EventEmitter();
 
   private currentDate: CalendarDateViewModel | undefined;
   public reminders: ReminderViewModel[] = [];

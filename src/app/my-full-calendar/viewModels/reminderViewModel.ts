@@ -1,18 +1,7 @@
+import { ReminderColorEnum } from "./reminderColorEnum";
+import { ReminderDateViewModel } from "./reminderDateViewModel";
+import { ReminderTimeViewModel } from "./reminderTimeViewModel";
 
-export class ReminderTimeViewModel {
-    constructor(
-        public hour: number,
-        public minute: number,
-        public second: number){}
-}
-
-
-export class ReminderDateViewModel {
-    constructor(
-        public year: number,
-        public month: number,
-        public day: number){}
-}
 
 export class ReminderViewModel {
 
@@ -22,6 +11,7 @@ export class ReminderViewModel {
         public city: string,
         public date: ReminderDateViewModel,
         public time: ReminderTimeViewModel,
-        public color: string,) {
+        public weatherInfo: any,
+        public color: ReminderColorEnum,) {
     }
 }

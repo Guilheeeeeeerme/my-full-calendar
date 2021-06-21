@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderService } from '../reminder.service';
-import { ReminderDateViewModel, ReminderViewModel } from '../viewModels/reminderViewModel';
+import { ReminderDateViewModel } from '../viewModels/reminderDateViewModel';
+import { ReminderViewModel } from '../viewModels/reminderViewModel';
 
 @Component({
   selector: 'app-update-reminder',
@@ -11,14 +12,18 @@ import { ReminderDateViewModel, ReminderViewModel } from '../viewModels/reminder
 })
 export class UpdateReminderComponent implements OnInit, OnChanges {
 
-  @Input("selectedReminder") public selectedReminder: ReminderViewModel | undefined;
-  public reminderForm: FormGroup = new FormGroup({});
+  @Input("selectedReminder") 
+  public selectedReminder: ReminderViewModel | undefined;
+
+  @Output("onUpdateReminder") 
+  public onUpdateReminder : EventEmitter<void> = new EventEmitter();
   
   // required for bootstrap
+  @ViewChild('dp', { static: false }) 
+  public dp: NgbDatepicker | undefined; 
+  
   public datepickerInitialValue: ReminderDateViewModel | undefined;
-  @ViewChild('dp', { static: false }) public dp: NgbDatepicker | undefined; 
-
-  @Output("onUpdateReminder") public onUpdateReminder : EventEmitter<void> = new EventEmitter();
+  public reminderForm: FormGroup = new FormGroup({});
   
   constructor(private reminderService: ReminderService) { }
 

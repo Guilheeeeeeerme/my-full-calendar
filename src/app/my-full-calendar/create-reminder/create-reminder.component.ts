@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ReminderService } from '../reminder.service';
-import { ReminderDateViewModel, ReminderTimeViewModel, ReminderViewModel } from '../viewModels/reminderViewModel';
+import { ReminderViewModel } from '../viewModels/reminderViewModel';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { ReminderDateViewModel } from '../viewModels/reminderDateViewModel';
 
 @Component({
   selector: 'app-create-reminder',
@@ -11,16 +12,18 @@ import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 })
 export class CreateReminderComponent implements OnInit {
 
-  @Input("selectedDay")
+  @Input("selectedDay") 
   public selectedDay: ReminderDateViewModel | undefined;
 
-  public reminderForm: FormGroup = new FormGroup({});
+  @Output("onCreateReminder") 
+  public onCreateReminder: EventEmitter<void> = new EventEmitter();
 
   // required for bootstrap
+  @ViewChild('dp', { static: false }) 
+  public dp: NgbDatepicker | undefined;
+  
+  public reminderForm: FormGroup = new FormGroup({});
   public datepickerInitialValue: ReminderDateViewModel | undefined;
-  @ViewChild('dp', { static: false }) public dp: NgbDatepicker | undefined;
-
-  @Output("onCreateReminder") public onCreateReminder : EventEmitter<void> = new EventEmitter();
 
   constructor(private reminderService: ReminderService) { }
 
@@ -65,8 +68,14 @@ export class CreateReminderComponent implements OnInit {
 
   private initDatePicker(): void {
 
-    if (this.dp && this.selectedDay) {
+    if (this.selectedDay) {
       this.datepickerInitialValue = new ReminderDateViewModel(this.selectedDay.year, this.selectedDay?.month + 1, this.selectedDay?.day)
+    } else {
+      const today = new Date();
+      this.datepickerInitialValue = new ReminderDateViewModel(today.getFullYear(), today.getMonth() + 1, today.getDate());
+    }
+
+    if (this.dp) {
       this.dp.navigateTo(this.datepickerInitialValue);
     }
   }

@@ -8,6 +8,7 @@ import { UpdateReminderComponent } from './update-reminder/update-reminder.compo
 import { ListReminderComponent } from './list-reminder/list-reminder.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderDescriptionPipe } from './reminder-description.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -23,6 +24,7 @@ import { ReminderDescriptionPipe } from './reminder-description.pipe';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+		HttpClientModule,
     NgbModule
   ],
   exports: [
