@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderDescriptionPipe } from './reminder-description.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { WeatherPipe } from './weather.pipe';
+import {NgxLocalStorageModule} from 'ngx-localstorage';
 
 
 
@@ -27,7 +28,8 @@ import { WeatherPipe } from './weather.pipe';
     CommonModule,
     ReactiveFormsModule,
 		HttpClientModule,
-    NgbModule
+    NgbModule,
+    NgxLocalStorageModule.forRoot()
   ],
   exports: [
     MonthlyCalendarComponent,

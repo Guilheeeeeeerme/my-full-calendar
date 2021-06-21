@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { ReminderViewModel } from './viewModels/reminderViewModel';
 import { v4 as uuidv4 } from 'uuid';
 import { ReminderDateViewModel } from './viewModels/reminderDateViewModel';
+import { LocalStorageService } from 'ngx-localstorage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReminderService {
 
-  constructor() { }
+  constructor(private _storageService: LocalStorageService) { }
 
   private get key() {
     return "my-reminders"
@@ -45,20 +46,22 @@ export class ReminderService {
     return new Promise((resolve, reject) => {
       try {
 
-        const reminders_str = localStorage.getItem(this.key);
         let reminders: ReminderViewModel[] = [];
 
-        if (!!reminders_str) {
-          reminders = JSON.parse(reminders_str);
-        } else {
+        try  {
+          reminders = this._storageService.get(this.key);
+        } catch {
           reminders = [];
         }
+
+        if(!reminders || !reminders.length)
+          reminders = [];
 
         reminders = reminders.filter((x) => {
           return x.id != reminderVm.id;
         })
 
-        localStorage.setItem(this.key, JSON.stringify(reminders));
+        this._storageService.set(this.key, reminders);
 
         resolve()
       } catch (e) {
@@ -68,25 +71,27 @@ export class ReminderService {
 
   }
 
-  updateReminder(reminderVm: ReminderViewModel): Promise<void> {
+  updateReminder(reminderVm: ReminderViewModel): Promise<string> {
 
     if (!reminderVm || !reminderVm.reminder)
-      throw "Unable to save reminder";
+      throw Error("Unable to save reminder");
 
     if (reminderVm.reminder.length > 30)
-      throw "Reminder name must have at most 30 characters";
+      throw Error("Reminder name must have at most 30 characters");
 
     return new Promise((resolve, reject) => {
       try {
 
-        const reminders_str = localStorage.getItem(this.key);
         let reminders: ReminderViewModel[] = [];
 
-        if (!!reminders_str) {
-          reminders = JSON.parse(reminders_str);
-        } else {
+        try {
+          reminders = this._storageService.get(this.key);
+        } catch {
           reminders = [];
         }
+
+        if(!reminders || !reminders.length)
+          reminders = [];
 
         reminders = reminders.filter((x) => {
           return x.id != reminderVm.id;
@@ -94,41 +99,43 @@ export class ReminderService {
 
         reminders.push(reminderVm);
         reminders = reminders.sort(this.sortReminders);
-        localStorage.setItem(this.key, JSON.stringify(reminders));
+        this._storageService.set(this.key, reminders);
 
-        resolve()
+        resolve(reminderVm.id)
       } catch (e) {
         reject(e)
       }
     })
   }
 
-  addReminder(reminderVm: ReminderViewModel): Promise<void> {
+  addReminder(reminderVm: ReminderViewModel): Promise<string> {
 
     if (!reminderVm || !reminderVm.reminder)
-      throw "Unable to save reminder";
+      throw Error("Unable to save reminder");
 
     if (reminderVm.reminder.length > 30)
-      throw "Reminder name must have at most 30 characters";
+      throw Error("Reminder name must have at most 30 characters");
 
     return new Promise(async (resolve, reject) => {
       try {
 
-        const reminders_str = localStorage.getItem(this.key);
         let reminders: ReminderViewModel[] = [];
 
-        if (!!reminders_str) {
-          reminders = JSON.parse(reminders_str);
-        } else {
+        try {
+          reminders = this._storageService.get(this.key);
+        } catch {
           reminders = [];
         }
+
+        if(!reminders || !reminders.length)
+          reminders = [];
 
         reminderVm.id = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
         reminders.push(reminderVm);
         reminders = reminders.sort(this.sortReminders);
-        localStorage.setItem(this.key, JSON.stringify(reminders));
+        this._storageService.set(this.key, reminders);
 
-        resolve()
+        resolve(reminderVm.id)
       } catch (e) {
         reject(e)
       }
@@ -138,14 +145,16 @@ export class ReminderService {
   getRemindersForDate(reminderDateVm: ReminderDateViewModel): Promise<ReminderViewModel[]> {
     return new Promise((resolve, reject) => {
 
-      const reminders_str = localStorage.getItem(this.key);
       let reminders: ReminderViewModel[] = [];
 
-      if (!!reminders_str) {
-        reminders = JSON.parse(reminders_str);
-      } else {
+      try {
+        reminders = this._storageService.get(this.key);
+      } catch {
         reminders = [];
       }
+
+      if(!reminders || !reminders.length)
+        reminders = [];
 
       if (reminders && reminders.length > 0) {
         reminders = reminders.filter(date => {

@@ -22,7 +22,6 @@ export class OpenWeatherService {
     if (forecast && forecast.length)
       return forecast[forecast.length - 1];
 
-    debugger;
     return null;
 
   }
