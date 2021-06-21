@@ -11,7 +11,8 @@
             [ngClass]="{ 'is-invalid': reminder?.touched && reminder?.invalid }" id="reminder"
             aria-describedby="reminderHelp" placeholder="Enter Reminder">
           <div class="invalid-feedback" *ngIf="reminder?.touched && reminder?.invalid">
-            Has Error
+            <span *ngIf="reminder?.errors?.required">Required Field</span>
+            <span *ngIf="reminder?.errors?.maxlength">At most 30 characters</span>
           </div>
         </div>
       </div>

@@ -41,21 +41,6 @@ export class ListReminderComponent implements OnChanges {
     this.updateRemindersList();
   }
 
-  public async getWeatherData(reminderViewModel: ReminderViewModel) {
-
-    try {
-      const r = reminderViewModel;
-      if (!r.weatherInfo) {
-        const weatherInfo = await this.openWeatherService.getWeatherForecast(r.city, 1);
-        debugger;
-        r.weatherInfo = weatherInfo;
-        // await this.reminderService.updateReminder(r);
-      }
-    } catch {
-
-    }
-  }
-
   public onClickCreateReminder() {
 
     this.modalService.open(this.createReminderModal, { ariaLabelledBy: 'modal-basic-title' })
@@ -98,7 +83,6 @@ export class ListReminderComponent implements OnChanges {
     this.onUpdateReminder.emit();
   }
 
-
   private async updateRemindersList() {
 
     let reminders: ReminderViewModel[] = [];
@@ -110,8 +94,10 @@ export class ListReminderComponent implements OnChanges {
     }
 
     for (const reminder of reminders) {
-      const weatherInfo = this.openWeatherService.getWeatherForecast(reminder.city, 15);
-      debugger;
+      try {
+        const weatherInfo = this.openWeatherService.getWeatherForecast(reminder.city, 15);
+        reminder.weatherInfo = weatherInfo;
+      } catch {}
     }
 
     this.reminders = reminders;

@@ -30,10 +30,10 @@ export class MonthlyCalendarComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.setCalendarState();
+    this.updateCalendarState();
   }
 
-  private setCalendarState(): void {
+  private updateCalendarState(): void {
     const currentMonth = this.currentMonth;
     const currentYear = this.currentYear;
 
@@ -44,14 +44,14 @@ export class MonthlyCalendarComponent implements OnChanges {
     const curr = new Date(this.currentYear, this.currentMonth - 1, 1);
     this.currentMonth = curr.getMonth();
     this.currentYear = curr.getFullYear();
-    this.setCalendarState();
+    this.updateCalendarState();
   }
 
   public goForward() {
     const curr = new Date(this.currentYear, this.currentMonth + 1, 1);
     this.currentMonth = curr.getMonth();
     this.currentYear = curr.getFullYear();
-    this.setCalendarState();
+    this.updateCalendarState();
   }
 
   /**
@@ -89,10 +89,12 @@ export class MonthlyCalendarComponent implements OnChanges {
 
   public onReminderCreated() {
     this.modalService.dismissAll();
+    this.updateCalendarState();
   }
 
   public onReminderUpdated() {
     this.modalService.dismissAll();
+    this.updateCalendarState();
   }
 
   /**

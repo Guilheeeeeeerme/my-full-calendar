@@ -40,6 +40,34 @@ export class ReminderService {
 
   }
 
+  deleteReminder(reminderVm: ReminderViewModel): Promise<void> {
+
+    return new Promise((resolve, reject) => {
+      try {
+
+        const reminders_str = localStorage.getItem(this.key);
+        let reminders: ReminderViewModel[] = [];
+
+        if (!!reminders_str) {
+          reminders = JSON.parse(reminders_str);
+        } else {
+          reminders = [];
+        }
+
+        reminders = reminders.filter((x) => {
+          return x.id != reminderVm.id;
+        })
+
+        localStorage.setItem(this.key, JSON.stringify(reminders));
+
+        resolve()
+      } catch (e) {
+        reject(e)
+      }
+    })
+
+  }
+
   updateReminder(reminderVm: ReminderViewModel): Promise<void> {
 
     if (!reminderVm || !reminderVm.reminder)

@@ -103,4 +103,10 @@ export class UpdateReminderComponent implements OnInit, OnChanges {
     this.reminderService.updateReminder(updatedReminder);
   }
 
+  DeleteReminder(): void {
+    this.onUpdateReminder.emit();
+    const updatedReminder: ReminderViewModel = this.reminderForm.value as ReminderViewModel;
+    this.reminderService.deleteReminder(updatedReminder);
+  }
+
 }
