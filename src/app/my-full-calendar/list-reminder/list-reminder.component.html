@@ -1,0 +1,13 @@
+<div class="container">
+
+    <ul class="list-group" *ngIf="reminders && reminders.length > 0 ; else emptyList">
+        <li *ngFor="let reminder of reminders" 
+            (click)="onSelect(reminder)" class="list-group-item list-group-item-action">{{ reminder.reminder }}
+        </li>
+    </ul>
+
+    <ng-template #emptyList>
+        No reminder for {{ selectedDay | json }}
+    </ng-template>
+
+</div>

@@ -1,4 +1,5 @@
-export class DateViewModel {
+export class CalendarDateViewModel {
+
   public withinTheViewMonth: boolean = false;
   public day: number = 0;
   public weekday: number = 0;
@@ -11,9 +12,5 @@ export class DateViewModel {
     this.weekday = param.getDay();
     this.month = param.getMonth();
     this.year = param.getFullYear();
-  }
-
-  getFullDateString(): string {
-    return `${this.year}-${this.month}-${this.day}`;
   }
 }

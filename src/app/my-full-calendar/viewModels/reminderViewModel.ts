@@ -1,11 +1,27 @@
+
+export class ReminderTimeViewModel {
+    constructor(
+        public hour: number,
+        public minute: number,
+        public second: number){}
+}
+
+
+export class ReminderDateViewModel {
+    constructor(
+        public year: number,
+        public month: number,
+        public day: number){}
+}
+
 export class ReminderViewModel {
 
     constructor(
-        public reminder?: string,
-        public city?: string,
-        public day?: string,
-        public time?: string,
-        public color?: string,) {
-
+        public id: string,
+        public reminder: string,
+        public city: string,
+        public date: ReminderDateViewModel,
+        public time: ReminderTimeViewModel,
+        public color: string,) {
     }
 }

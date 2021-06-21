@@ -1,80 +1,80 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ReminderService } from '../reminder.service';
-import { ReminderViewModel } from '../viewModels/reminderViewModel';
-import { DateViewModel } from '../viewModels/dateViewModel';
+import { ReminderDateViewModel, ReminderTimeViewModel, ReminderViewModel } from '../viewModels/reminderViewModel';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-reminder',
   templateUrl: './create-reminder.component.html',
   styleUrls: ['./create-reminder.component.css']
 })
-export class CreateReminderComponent implements OnInit, OnChanges {
+export class CreateReminderComponent implements OnInit {
 
   @Input("selectedDay")
-  public selectedDay: DateViewModel | undefined;
-  public reminders: ReminderViewModel[] = [];
+  public selectedDay: ReminderDateViewModel | undefined;
 
   public reminderForm: FormGroup = new FormGroup({});
-  public newReminder: ReminderViewModel = new ReminderViewModel;
+
+  // required for bootstrap
+  public datepickerInitialValue: ReminderDateViewModel | undefined;
+  @ViewChild('dp', { static: false }) public dp: NgbDatepicker | undefined;
+
+  @Output("onSaveReminder") public onSaveReminder : EventEmitter<void> = new EventEmitter();
 
   constructor(private reminderService: ReminderService) { }
 
-  // get name() { return this.heroForm.get('name'); }
-  // get power() { return this.heroForm.get('power'); }
+  get reminder() { return this.reminderForm.get('reminder'); }
+  get city() { return this.reminderForm.get('city'); }
+  get date() { return this.reminderForm.get('date'); }
+  get time() { return this.reminderForm.get('time'); }
+  get color() { return this.reminderForm.get('color'); }
+
+  ngAfterViewInit() {
+    this.initDatePicker();
+  }
 
   ngOnInit(): void {
+    this.setFormValidation();
+  }
+
+  private setFormValidation(): void {
     this.reminderForm = new FormGroup({
-      reminder: new FormControl(this.newReminder.reminder, [
+      reminder: new FormControl('', [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      city: new FormControl(this.newReminder.city, [
+      city: new FormControl('', [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      day: new FormControl(this.newReminder.day, [
+      date: new FormControl('', [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      time: new FormControl(this.newReminder.time, [
+      time: new FormControl('', [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      color: new FormControl(this.newReminder.color, [
+      color: new FormControl('', [
         Validators.required,
         Validators.maxLength(30)
       ]),
     });
   }
 
-  get reminder() { return this.reminderForm.get('reminder'); }
-  get city() { return this.reminderForm.get('city'); }
-  get day() { return this.reminderForm.get('day'); }
-  get time() { return this.reminderForm.get('time'); }
-  get color() { return this.reminderForm.get('color'); }
+  private initDatePicker(): void {
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.updateRemindersList();
-  }
-
-  async updateRemindersList() {
-
-    let reminders: ReminderViewModel[] = [];
-    try {
-      if (this.selectedDay)
-        reminders = await this.reminderService.getRemindersForDate(this.selectedDay);
-    } catch {
-      reminders = [];
+    if (this.dp && this.selectedDay) {
+      this.datepickerInitialValue = new ReminderDateViewModel(this.selectedDay.year, this.selectedDay?.month + 1, this.selectedDay?.day)
+      this.dp.navigateTo(this.datepickerInitialValue);
     }
-
-    this.reminders = reminders;
   }
 
   AddReminder(): void {
+    this.onSaveReminder.emit();
     const newReminder: ReminderViewModel = this.reminderForm.value as ReminderViewModel;
-    this.reminderService.addReminder(this.selectedDay as DateViewModel, newReminder);
-    debugger;
+    this.reminderService.addReminder(newReminder);
   }
 
 }

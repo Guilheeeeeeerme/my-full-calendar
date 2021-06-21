@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ReminderService } from '../reminder.service';
-import { DateViewModel } from '../viewModels/dateViewModel';
+import { CalendarDateViewModel } from '../viewModels/CalendarDateViewModel';
 import { ReminderViewModel } from '../viewModels/reminderViewModel';
 
 @Component({
@@ -16,9 +16,9 @@ export class MonthlyDateComponent implements OnChanges {
   @Input("month") month: number = 0;
   @Input("year") year: number = 0;
 
-  @Output("onSelectDate") public onSelectDate: EventEmitter<DateViewModel> = new EventEmitter();
+  @Output("onSelectDate") public onSelectDate: EventEmitter<CalendarDateViewModel> = new EventEmitter();
 
-  private currentDate: DateViewModel | undefined;
+  private currentDate: CalendarDateViewModel | undefined;
   public reminders: ReminderViewModel[] = [];
 
   constructor(private reminderService: ReminderService) { }
@@ -30,7 +30,7 @@ export class MonthlyDateComponent implements OnChanges {
   private async LoadReminders() {
     try {
       const CurrentDate = new Date(this.year, this.month, this.day);
-      this.currentDate = new DateViewModel(CurrentDate, this.withinTheViewMonth);
+      this.currentDate = new CalendarDateViewModel(CurrentDate, this.withinTheViewMonth);
       this.reminders = await this.reminderService.getRemindersForDate(this.currentDate);
     } catch {
       this.reminders = []

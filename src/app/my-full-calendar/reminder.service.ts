@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ReminderViewModel } from './viewModels/reminderViewModel';
-import { DateViewModel } from './viewModels/dateViewModel';
+import { ReminderDateViewModel, ReminderViewModel } from './viewModels/reminderViewModel';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +9,22 @@ export class ReminderService {
 
   constructor() { }
 
-  addReminder(dateViewModel: DateViewModel, reminderViewModel: ReminderViewModel): Promise<void> {
+  addReminder(reminderViewModel: ReminderViewModel): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        let reminders = await this.getRemindersForDate(dateViewModel);
+
+        const reminders_str = localStorage.getItem(this.key);
+        let reminders: ReminderViewModel[] = [];
+  
+        if (!!reminders_str) {
+          reminders = JSON.parse(reminders_str);
+        } else {
+          reminders = [];
+        }
+
+        reminderViewModel.id = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
         reminders.push(reminderViewModel);
-        localStorage.setItem(dateViewModel.getFullDateString(), JSON.stringify(reminders));
+        localStorage.setItem(this.key, JSON.stringify(reminders));
         resolve()
       } catch (e) {
         reject(e)
@@ -22,11 +32,11 @@ export class ReminderService {
     })
   }
 
-  getRemindersForDate(selectedDay: DateViewModel): Promise<ReminderViewModel[]> {
+  getRemindersForDate(dateViewModel: ReminderDateViewModel): Promise<ReminderViewModel[]> {
     return new Promise((resolve, reject) => {
 
-      const reminders_str = localStorage.getItem(selectedDay.getFullDateString());
-      let reminders = [];
+      const reminders_str = localStorage.getItem(this.key);
+      let reminders: ReminderViewModel[] = [];
 
       if (!!reminders_str) {
         reminders = JSON.parse(reminders_str);
@@ -34,8 +44,20 @@ export class ReminderService {
         reminders = [];
       }
 
+      if(reminders && reminders.length > 0) {
+        reminders = reminders.filter(date => {
+          return +date.date.year == +dateViewModel.year 
+            && +(date.date.month - 1) == +dateViewModel.month
+            && +date.date.day == +dateViewModel.day; 
+        })
+      }
+
       resolve(reminders);
 
     });
+  }
+
+  get key() {
+    return "my-reminders"
   }
 }

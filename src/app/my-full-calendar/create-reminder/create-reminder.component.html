@@ -1,54 +1,78 @@
 <div class="container">
 
+  <h3>Create new reminder</h3>
+
   <form [formGroup]="reminderForm">
 
-    <div class="form-group">
-      <label for="reminder">Reminder</label>
-      <input type="text" class="form-control" formControlName="reminder"
-        [ngClass]="{ 'is-invalid': reminder?.touched && reminder?.invalid }" id="reminder"
-        aria-describedby="reminderHelp" placeholder="Enter Reminder">
-      <div class="invalid-feedback" *ngIf="reminder?.touched && reminder?.invalid">
-        Has Error
+    <div class="row">
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="reminder">Reminder</label>
+          <input type="text" class="form-control" formControlName="reminder"
+            [ngClass]="{ 'is-invalid': reminder?.touched && reminder?.invalid }" id="reminder"
+            aria-describedby="reminderHelp" placeholder="Enter Reminder">
+          <div class="invalid-feedback" *ngIf="reminder?.touched && reminder?.invalid">
+            Has Error
+          </div>
+        </div>
       </div>
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" class="form-control" formControlName="city"
+            [ngClass]="{ 'is-invalid': city?.touched && city?.invalid }" id="city" aria-describedby="cityHelp"
+            placeholder="Enter City">
+          <div class="invalid-feedback" *ngIf="city?.touched && city?.invalid">
+            Has Error
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+
+          <ngb-datepicker [(ngModel)]="datepickerInitialValue" #dp formControlName="date"
+            [ngClass]="{ 'is-invalid': date?.touched && date?.invalid }" id="date" aria-describedby="dayHelp"
+            placeholder="Enter Day">
+          </ngb-datepicker>
+
+          <div class="invalid-feedback" *ngIf="date?.touched && date?.invalid">
+            Has Error
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+          <ngb-timepicker #tp formControlName="time" [ngClass]="{ 'is-invalid': time?.touched && time?.invalid }"
+            id="time" aria-describedby="timeHelp" placeholder="Enter Time">
+          </ngb-timepicker>
+
+          <div class="invalid-feedback" *ngIf="time?.touched && time?.invalid">
+            Has Error
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="form-group">
-      <label for="city">City</label>
-      <input type="text" class="form-control" formControlName="city"
-        [ngClass]="{ 'is-invalid': city?.touched && city?.invalid }" id="city" aria-describedby="cityHelp"
-        placeholder="Enter City">
-      <div class="invalid-feedback" *ngIf="city?.touched && city?.invalid">
-        Has Error
-      </div>
-    </div>
 
-    <div class="form-group">
-      <label for="day">Day</label>
-      <input type="text" class="form-control" formControlName="day"
-        [ngClass]="{ 'is-invalid': day?.touched && day?.invalid }" id="day" aria-describedby="dayHelp"
-        placeholder="Enter Day">
-      <div class="invalid-feedback" *ngIf="day?.touched && day?.invalid">
-        Has Error
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="time">Time</label>
-      <input type="text" class="form-control" formControlName="time"
-        [ngClass]="{ 'is-invalid': time?.touched && time?.invalid }" id="time" aria-describedby="timeHelp"
-        placeholder="Enter Time">
-      <div class="invalid-feedback" *ngIf="time?.touched && time?.invalid">
-        Has Error
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="color">Color</label>
-      <input type="text" class="form-control" formControlName="color"
-        [ngClass]="{ 'is-invalid': color?.touched && color?.invalid }" id="color" aria-describedby="colorHelp"
-        placeholder="Enter Color">
-      <div class="invalid-feedback" *ngIf="color?.touched && color?.invalid">
-        Has Error
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="color">Color</label>
+          <input type="text" class="form-control" formControlName="color"
+            [ngClass]="{ 'is-invalid': color?.touched && color?.invalid }" id="color" aria-describedby="colorHelp"
+            placeholder="Enter Color">
+          <div class="invalid-feedback" *ngIf="color?.touched && color?.invalid">
+            Has Error
+          </div>
+        </div>
       </div>
     </div>
 
@@ -58,8 +82,6 @@
 
 </div>
 
-<pre>{{ selectedDay | json }}</pre>
-<pre>{{ reminders | json }}</pre>
 
 <!-- <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
     class="alert alert-danger">

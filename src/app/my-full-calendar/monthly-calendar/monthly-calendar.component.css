@@ -38,3 +38,32 @@
     color: white;
     font-weight: bold;
 }
+
+/* spacement bottom	*/
+.my-calendar-mb-none {
+	margin-bottom: 0 !important;
+}
+
+.my-calendar-mb-xs {
+	margin-bottom: 5px !important;
+}
+
+.my-calendar-mb-sm {
+	margin-bottom: 10px !important;
+}
+
+.my-calendar-mb-md {
+	margin-bottom: 15px !important;
+}
+
+.my-calendar-mb-lg {
+	margin-bottom: 20px !important;
+}
+
+.my-calendar-mb-xl {
+	margin-bottom: 25px !important;
+}
+
+.my-calendar-mb-xlg {
+	margin-bottom: 30px !important;
+}

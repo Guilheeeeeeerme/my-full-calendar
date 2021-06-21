@@ -1,5 +1,7 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DateViewModel } from '../viewModels/dateViewModel';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarDateViewModel } from '../viewModels/CalendarDateViewModel';
+import { ReminderViewModel } from '../viewModels/reminderViewModel';
 
 @Component({
   selector: 'app-monthly-calendar',
@@ -11,25 +13,64 @@ export class MonthlyCalendarComponent implements OnChanges {
   @Input("month") public currentMonth: number = 0;
   @Input("year") public currentYear: number = 0;
   public weekDays: string[] = [];
-  public rangeOfDays: DateViewModel[] = [];
-  public selectedDay: DateViewModel | undefined;
 
-  constructor() {
+  public rangeOfDays: CalendarDateViewModel[] = [];
+  public selectedDay: CalendarDateViewModel | undefined;
+
+  public selectedReminder: ReminderViewModel | undefined;
+  
+	@ViewChild('listReminderModal', { static: false }) public listReminderModal: ElementRef | undefined;
+
+  constructor(private modalService: NgbModal) {
     this.buildCalendarHeader();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.UpdateCalendarState();
+    this.setCalendarState();
   }
 
-  public onDateSelect(date: DateViewModel) {
-    this.selectedDay = date;
-  }
-
-  private UpdateCalendarState(): void {
+  private setCalendarState(): void {
     const currentMonth = this.currentMonth;
     const currentYear = this.currentYear;
     this.buildCalendarRows(currentMonth, currentYear);
+  }
+
+  /**
+   * set the select date to parent in order to filter the daily events
+   */
+  public onDateSelected(date: CalendarDateViewModel) {
+    this.selectedDay = date;
+    const listReminderModal = this.listReminderModal;
+    this.openModal(listReminderModal);
+  }
+
+  /**
+   * Called from the list component in order to allow update
+   */
+  public onReminderSelected(reminder: ReminderViewModel) {
+    this.selectedReminder = reminder;
+  }
+
+  /*
+  * Events from the create modal
+  */
+
+  public openModal(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then((result) => {
+        console.log(`Closed with: ${result}`);
+      }, (reason) => {
+        console.log(`Dismissed with: ${reason}`);
+      });
+  }
+
+  public onReminderModalDismised() {
+    this.modalService.dismissAll();
+  }
+
+  public onReminderSaved() {
+    this.modalService.dismissAll();
+    // }
   }
 
   /**
@@ -42,8 +83,8 @@ export class MonthlyCalendarComponent implements OnChanges {
   }
 
   private buildCalendarRows(currentMonth: number, currentYear: number) {
-    
-    const rangeOfDays: DateViewModel[] = [];
+
+    const rangeOfDays: CalendarDateViewModel[] = [];
 
     let viewMonthStartsAt = new Date(currentYear, currentMonth, 1);
     let viewMonthEndsAt = new Date(currentYear, currentMonth + 1, 0);
@@ -58,8 +99,8 @@ export class MonthlyCalendarComponent implements OnChanges {
       viewMonthEndsAt.setDate(viewMonthEndsAt.getDate() + 1);
     }
 
-    while(viewMonthStartsAt <= viewMonthEndsAt) {
-      rangeOfDays.push(new DateViewModel(viewMonthStartsAt, viewMonthStartsAt.getMonth() == currentMonth));
+    while (viewMonthStartsAt <= viewMonthEndsAt) {
+      rangeOfDays.push(new CalendarDateViewModel(viewMonthStartsAt, viewMonthStartsAt.getMonth() == currentMonth));
       viewMonthStartsAt.setDate(viewMonthStartsAt.getDate() + 1);
     }
 

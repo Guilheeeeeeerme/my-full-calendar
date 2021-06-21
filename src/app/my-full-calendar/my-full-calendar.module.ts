@@ -4,6 +4,9 @@ import { MonthlyCalendarComponent } from './monthly-calendar/monthly-calendar.co
 import { MonthlyDateComponent } from './monthly-date/monthly-date.component';
 import { CreateReminderComponent } from './create-reminder/create-reminder.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UpdateReminderComponent } from './update-reminder/update-reminder.component';
+import { ListReminderComponent } from './list-reminder/list-reminder.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -11,16 +14,20 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     MonthlyCalendarComponent,
     MonthlyDateComponent,
-    CreateReminderComponent
+    CreateReminderComponent,
+    UpdateReminderComponent,
+    ListReminderComponent
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   exports: [
     MonthlyCalendarComponent,
     MonthlyDateComponent,
-    CreateReminderComponent
+    CreateReminderComponent,
+    UpdateReminderComponent
   ]
 })
 export class MyFullCalendarModule { }
