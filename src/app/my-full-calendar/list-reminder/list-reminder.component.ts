@@ -97,7 +97,9 @@ export class ListReminderComponent implements OnChanges {
       reminders = [];
     }
 
-    for (const reminder of reminders) {
+    this.reminders = reminders;
+
+    for (const reminder of this.reminders) {
       reminder.weatherInfo = null;
       try {
         reminder.weatherInfo = await this.openWeatherService.getWeatherForecast(reminder.city, 15);
@@ -105,8 +107,6 @@ export class ListReminderComponent implements OnChanges {
         reminder.weatherInfo = null;
       }
     }
-
-    this.reminders = reminders;
   }
 
 }
