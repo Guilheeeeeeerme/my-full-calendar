@@ -16,29 +16,42 @@ export class ReminderService {
 
   private sortReminders(dateA: ReminderViewModel, dateB: ReminderViewModel) {
 
-    if (dateA.date.year > dateB.date.year)
+    if (dateA.date.year > dateB.date.year) {
       return 1;
+    }
 
-    if (dateA.date.month > dateB.date.month)
+    if (dateA.date.month > dateB.date.month) {
       return 1;
+    }
 
-    if (dateA.date.day > dateB.date.day)
+    if (dateA.date.day > dateB.date.day) {
       return 1;
+    }
 
-    if (dateA.time.hour > dateB.time.hour)
+    if (dateA.time.hour > dateB.time.hour) {
       return 1;
+    }
 
-    if (dateA.time.minute > dateB.time.minute)
+    if (dateA.time.minute > dateB.time.minute) {
       return 1;
+    }
 
-    if (dateA.time.second > dateB.time.second)
+    if (dateA.time.second > dateB.time.second) {
       return 1;
+    }
 
-    return 0;
+    return -1;
 
   }
 
   updateReminder(reminderVm: ReminderViewModel): Promise<void> {
+
+    if (!reminderVm || !reminderVm.reminder)
+      throw "Unable to save reminder";
+
+    if (reminderVm.reminder.length > 30)
+      throw "Reminder name must have at most 30 characters";
+
     return new Promise((resolve, reject) => {
       try {
 
@@ -67,6 +80,13 @@ export class ReminderService {
   }
 
   addReminder(reminderVm: ReminderViewModel): Promise<void> {
+
+    if (!reminderVm || !reminderVm.reminder)
+      throw "Unable to save reminder";
+
+    if (reminderVm.reminder.length > 30)
+      throw "Reminder name must have at most 30 characters";
+
     return new Promise(async (resolve, reject) => {
       try {
 
@@ -81,7 +101,6 @@ export class ReminderService {
 
         reminderVm.id = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
         reminders.push(reminderVm);
-
         reminders = reminders.sort(this.sortReminders);
         localStorage.setItem(this.key, JSON.stringify(reminders));
 

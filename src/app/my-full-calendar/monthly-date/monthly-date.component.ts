@@ -30,6 +30,7 @@ export class MonthlyDateComponent implements OnChanges {
 
   private currentDate: CalendarDateViewModel | undefined;
   public reminders: ReminderViewModel[] = [];
+  public hasMore: number = 0;
 
   constructor(private reminderService: ReminderService) { }
 
@@ -38,13 +39,25 @@ export class MonthlyDateComponent implements OnChanges {
   }
 
   private async LoadReminders() {
+
+    let reminders: any[] = []
+
     try {
       const CurrentDate = new Date(this.year, this.month, this.day);
       this.currentDate = new CalendarDateViewModel(CurrentDate, this.withinTheViewMonth);
-      this.reminders = await this.reminderService.getRemindersForDate(this.currentDate);
+      reminders = await this.reminderService.getRemindersForDate(this.currentDate);
     } catch {
-      this.reminders = []
+      reminders = []
     }
+
+    if(reminders.length > 3) {
+      this.hasMore = reminders.length - 3;
+      reminders = reminders.splice(0, 3)
+    } else {
+      this.hasMore = 0;
+    }
+
+    this.reminders = reminders;
   }
 
   public selectDate() {

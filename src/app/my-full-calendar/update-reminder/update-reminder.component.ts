@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderService } from '../reminder.service';
+import { ReminderColorEnum } from '../viewModels/reminderColorEnum';
 import { ReminderDateViewModel } from '../viewModels/reminderDateViewModel';
 import { ReminderViewModel } from '../viewModels/reminderViewModel';
 
@@ -12,19 +13,21 @@ import { ReminderViewModel } from '../viewModels/reminderViewModel';
 })
 export class UpdateReminderComponent implements OnInit, OnChanges {
 
-  @Input("selectedReminder") 
+  @Input("selectedReminder")
   public selectedReminder: ReminderViewModel | undefined;
 
-  @Output("onUpdateReminder") 
-  public onUpdateReminder : EventEmitter<void> = new EventEmitter();
-  
+  @Output("onUpdateReminder")
+  public onUpdateReminder: EventEmitter<void> = new EventEmitter();
+
   // required for bootstrap
-  @ViewChild('dp', { static: false }) 
-  public dp: NgbDatepicker | undefined; 
-  
+  @ViewChild('dp', { static: false })
+  public dp: NgbDatepicker | undefined;
+
+  public colorPalleteInitialValue: string | undefined;
   public datepickerInitialValue: ReminderDateViewModel | undefined;
   public reminderForm: FormGroup = new FormGroup({});
-  
+  public colorOptions: { value: string }[] = [];
+
   constructor(private reminderService: ReminderService) { }
 
   get reminder() { return this.reminderForm.get('reminder'); }
@@ -35,9 +38,20 @@ export class UpdateReminderComponent implements OnInit, OnChanges {
 
   ngAfterViewInit() {
     this.initDatePicker();
+    this.initColorPallete();
   }
 
   ngOnInit(): void {
+
+    this.colorOptions = [];
+
+    for (let item in ReminderColorEnum) {
+      if (isNaN(Number(item))) {
+        this.colorOptions.push({
+          value: (ReminderColorEnum as any)[item],
+        });
+      }
+    }
     this.setFormValidation();
   }
 
@@ -47,7 +61,6 @@ export class UpdateReminderComponent implements OnInit, OnChanges {
 
   private setFormValidation(): void {
     const selectedReminder = this.selectedReminder;
-
     this.reminderForm = new FormGroup({
       id: new FormControl(selectedReminder?.id),
       reminder: new FormControl(selectedReminder?.reminder, [
@@ -55,22 +68,26 @@ export class UpdateReminderComponent implements OnInit, OnChanges {
         Validators.maxLength(30)
       ]),
       city: new FormControl(selectedReminder?.city, [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
       date: new FormControl(selectedReminder?.date, [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
       time: new FormControl(selectedReminder?.time, [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
       color: new FormControl(selectedReminder?.color, [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
     });
+  }
+
+  private initColorPallete(): void {
+
+    if (this.selectedReminder) {
+      this.colorPalleteInitialValue = this.selectedReminder.color;
+    }
+
   }
 
   private initDatePicker(): void {

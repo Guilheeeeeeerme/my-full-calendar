@@ -4,6 +4,7 @@ import { ReminderViewModel } from '../viewModels/reminderViewModel';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderDateViewModel } from '../viewModels/reminderDateViewModel';
+import { ReminderColorEnum } from '../viewModels/reminderColorEnum';
 
 @Component({
   selector: 'app-create-reminder',
@@ -12,18 +13,19 @@ import { ReminderDateViewModel } from '../viewModels/reminderDateViewModel';
 })
 export class CreateReminderComponent implements OnInit {
 
-  @Input("selectedDay") 
+  @Input("selectedDay")
   public selectedDay: ReminderDateViewModel | undefined;
 
-  @Output("onCreateReminder") 
+  @Output("onCreateReminder")
   public onCreateReminder: EventEmitter<void> = new EventEmitter();
 
   // required for bootstrap
-  @ViewChild('dp', { static: false }) 
+  @ViewChild('dp', { static: false })
   public dp: NgbDatepicker | undefined;
-  
-  public reminderForm: FormGroup = new FormGroup({});
+
   public datepickerInitialValue: ReminderDateViewModel | undefined;
+  public reminderForm: FormGroup = new FormGroup({});
+  public colorOptions: { value: string }[] = [];
 
   constructor(private reminderService: ReminderService) { }
 
@@ -38,6 +40,17 @@ export class CreateReminderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.colorOptions = [];
+
+    for (let item in ReminderColorEnum) {
+      if (isNaN(Number(item))) {
+        this.colorOptions.push({
+          value: (ReminderColorEnum as any)[item],
+        });
+      }
+    }
+
     this.setFormValidation();
   }
 
@@ -48,20 +61,16 @@ export class CreateReminderComponent implements OnInit {
         Validators.maxLength(30)
       ]),
       city: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
       date: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
       time: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
       color: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(30)
+        Validators.required
       ]),
     });
   }

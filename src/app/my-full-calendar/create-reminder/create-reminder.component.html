@@ -60,7 +60,7 @@
     </div>
 
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col">
         <div class="form-group">
           <label for="color">Color</label>
@@ -72,10 +72,38 @@
           </div>
         </div>
       </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col">
+        <label for="color">Pick a Color</label><br />
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="color" formControlName="color"
+          [ngClass]="{ 'is-invalid': color?.touched && color?.invalid }" id="color" aria-describedby="colorHelp">
+
+          <label ngbButtonLabel class="btn-primary" *ngFor="let colorOption of colorOptions"
+            [ngStyle]="{ 'background-color': colorOption.value }">
+            <input ngbButton type="radio" [value]="colorOption.value">
+          </label>
+          <!-- <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" value="middle"> Middle
+          </label> -->
+          <!-- <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="false"> Right
+          </label> -->
+        </div>
+        <div class="invalid-feedback" *ngIf="color?.touched && color?.invalid">
+          Has Error
+        </div>
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="!reminderForm.valid"
-      (click)="AddReminder()">Submit</button>
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-success float-right" [disabled]="!reminderForm.valid"
+          (click)="AddReminder()">Create</button>
+      </div>
+    </div>
+
   </form>
 
 </div>

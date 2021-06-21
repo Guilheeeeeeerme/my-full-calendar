@@ -1,14 +1,30 @@
 <div class="container">
 
-    <ul class="list-group" *ngIf="reminders && reminders.length > 0 ; else emptyList">
-        <li *ngFor="let reminder of reminders" (click)="onSelectReminderOnList(reminder)"
-            class="list-group-item list-group-item-action">{{ reminder | reminderDescription : 'short' }}
-        </li>
-    </ul>
+    <div class="row mb-1">
+        <div class="col">
+            <ul class="list-group" *ngIf="reminders && reminders.length > 0 ; else emptyList">
 
-    <ng-template #emptyList>
-        No reminder for {{ selectedDay | json }}
-    </ng-template>
+                <a href="#" *ngFor="let reminder of reminders" (click)="onSelectReminderOnList(reminder)"
+                    class="list-group-item list-group-item-action flex-column align-items-start"
+                    [ngStyle]="{ 'border-color': reminder.color }">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ reminder.reminder }}</h5>
+                        <small class="text-muted">{{ ( reminder | reminderDescription : 'datetime') | date : 'MMMM dd
+                            HH:mm' }}</small>
+                        <!-- <small class="text-muted">{{ reminder | reminderDescription : 'time' }}</small> -->
+                    </div>
+                    <p class="mb-1">City: {{ reminder.city }}</p>
+                    <small class="text-muted">{{ reminder.weatherInfo }}.</small>
+                </a>
+
+
+            </ul>
+
+            <ng-template #emptyList>
+                No reminder for {{ selectedDay | json }}
+            </ng-template>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col">

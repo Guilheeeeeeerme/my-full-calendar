@@ -34,12 +34,26 @@ export class ListReminderComponent implements OnChanges {
   public selectedReminder: ReminderViewModel | undefined;
 
   constructor(private modalService: NgbModal,
-    private reminderService: ReminderService,
-    private openWeatherService: OpenWeatherService) { }
+    private reminderService: ReminderService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateRemindersList();
   }
+
+  // private async updateWeatherData(reminderViewModel: ReminderViewModel) {
+
+  //   try {
+  //     const r = reminderViewModel;
+  //     if (!r.weatherInfo) {
+  //       const weatherInfo = await this.openWeatherService.getWeatherForecast(r.city, 1);
+  //       debugger;
+  //       r.weatherInfo = weatherInfo;
+  //       // await this.reminderService.updateReminder(r);
+  //     }
+  //   } catch {
+
+  //   }
+  // }
 
   public onClickCreateReminder() {
 
@@ -83,20 +97,6 @@ export class ListReminderComponent implements OnChanges {
     this.onUpdateReminder.emit();
   }
 
-  private async updateWeatherData(reminderViewModel: ReminderViewModel) {
-
-    try {
-      const r = reminderViewModel;
-      if (!r.weatherInfo) {
-        const weatherInfo = await this.openWeatherService.getWeatherForecast(r.city, 1);
-        debugger;
-        r.weatherInfo = weatherInfo;
-        // await this.reminderService.updateReminder(r);
-      }
-    } catch {
-
-    }
-  }
 
   private async updateRemindersList() {
 
@@ -106,9 +106,6 @@ export class ListReminderComponent implements OnChanges {
         reminders = await this.reminderService.getRemindersForDate(this.selectedDay);
     } catch {
       reminders = [];
-    }
-    for (const iterator of reminders) {
-      this.updateWeatherData(iterator);
     }
 
     this.reminders = reminders;
